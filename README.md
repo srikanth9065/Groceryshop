@@ -1,1 +1,1 @@
-# Groceryshop
+# DevOps Group project

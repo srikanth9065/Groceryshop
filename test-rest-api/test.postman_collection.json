@@ -1,0 +1,803 @@
+{
+	"info": {
+		"_postman_id": "8e5d4cd4-ed41-4c5c-a129-07dcc6653684",
+		"name": "DevOps1 Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "userRole visitor",
+							"item": [
+								{
+									"name": "GET /login",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Comfirm no session\", () => {\r",
+													"  const responseJson = pm.response.json();\r",
+													"  pm.expect(responseJson._error).to.eql(\"Not logged in\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableCookies": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE /login",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"No access\", () => {\r",
+													"  const responseJson = pm.response.json();\r",
+													"  pm.expect(responseJson._error).to.eql(\"Not allowed\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableCookies": true
+									},
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Google Chrome\";v=\"101\""
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
+											},
+											{
+												"key": "sec-ch-ua-platform",
+												"value": "\"Windows\""
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:3000/api/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST /login - incorrrect credentials",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Access is denied\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData._error).to.eql('No such user.');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableCookies": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Google Chrome\";v=\"101\""
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
+											},
+											{
+												"key": "sec-ch-ua-platform",
+												"value": "\"Windows\""
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"email\":\"adam@gmail.com\",\"password\":\"12345a6178\"}"
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST /login - corrrect credentials",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Logged in\", () => {\r",
+													"  const responseJson = pm.response.json();\r",
+													"  pm.expect(responseJson.firstName).to.eql(\"Adam\");\r",
+													"  pm.expect(responseJson.email).to.eql(\"adam@gmail.com\");\r",
+													"  pm.expect(responseJson.userRole).to.eql(\"user\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Google Chrome\";v=\"101\""
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
+											},
+											{
+												"key": "sec-ch-ua-platform",
+												"value": "\"Windows\""
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"adam@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "userRole user",
+							"item": [
+								{
+									"name": "POST /login",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"console.log(\"clearing cookies for: \"+\"http://localhost:3000/api/login\");\r",
+													"const jar = pm.cookies.jar();\r",
+													"jar.clear(\"http://localhost:3000/api/login\", function (error) {\r",
+													"  // error - <Error>\r",
+													"  if(error)\r",
+													"  console.log(\"Error clearing cookies: \"+error);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"User is Adam\", () => {\r",
+													"  const responseJson = pm.response.json();\r",
+													"  pm.expect(responseJson.firstName).to.eql(\"Adam\");\r",
+													"  pm.expect(responseJson.email).to.eql(\"adam@gmail.com\");\r",
+													"  pm.expect(responseJson.userRole).to.eql(\"user\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Google Chrome\";v=\"101\""
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
+											},
+											{
+												"key": "sec-ch-ua-platform",
+												"value": "\"Windows\""
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"email\":\"adam@gmail.com\",\"password\":\"12345678\"}"
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST /login - already logged in",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {\r",
+													"    pm.response.to.have.status(405);\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Google Chrome\";v=\"101\""
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
+											},
+											{
+												"key": "sec-ch-ua-platform",
+												"value": "\"Windows\""
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"email\":\"adam@gmail.com\",\"password\":\"12345678\"}"
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET /login",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.clear()"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"User is logged in\", () => {\r",
+													"  const responseJson = pm.response.json();\r",
+													"  pm.expect(responseJson.firstName).to.eql(\"Adam\");\r",
+													"  pm.expect(responseJson.email).to.eql(\"adam@gmail.com\");\r",
+													"  pm.expect(responseJson.userRole).to.eql(\"user\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DEL /login",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Session destroyed\", () => {\r",
+													"  const responseJson = pm.response.json();\r",
+													"  pm.expect(responseJson.success).to.eql(\"logged out\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "products",
+					"item": [
+						{
+							"name": "userRole visitor",
+							"item": [
+								{
+									"name": "GET /products",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var schema = {\r",
+													"    \"type\": \"array\",\r",
+													"    \"default\": [],\r",
+													"    \"title\": \"json\",\r",
+													"    \"items\": {\r",
+													"        \"type\": \"object\",\r",
+													"        \"required\": [\r",
+													"            \"id\",\r",
+													"            \"description\",\r",
+													"            \"name\",\r",
+													"            \"price\"\r",
+													"        ],\r",
+													"        \"properties\": {\r",
+													"            \"id\": {\r",
+													"                \"type\": \"integer\",\r",
+													"                \"examples\": [\r",
+													"                    1,\r",
+													"                    2\r",
+													"                ]\r",
+													"            },\r",
+													"            \"description\": {\r",
+													"                \"type\": \"string\",\r",
+													"                \"examples\": [\r",
+													"                    \"In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.\",\r",
+													"                    \"Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\\n\\nDonec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.\\n\\nDuis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.\"\r",
+													"                ]\r",
+													"            },\r",
+													"            \"name\": {\r",
+													"                \"type\": \"string\",\r",
+													"                \"examples\": [\r",
+													"                    \"Cookies Oatmeal Sugary\",\r",
+													"                    \"Elephant Pizza Pizza Dough\"\r",
+													"                ]\r",
+													"            },\r",
+													"            \"price\": {\r",
+													"                \"type\": \"integer\",\r",
+													"                \"examples\": [\r",
+													"                    106,\r",
+													"                    84\r",
+													"                ]\r",
+													"            }\r",
+													"        }\r",
+													"}};\r",
+													"\r",
+													"const response = pm.response.json();\r",
+													"    pm.test('Schema is valid', () => {\r",
+													"        pm.expect(response).to.have.jsonSchema(schema);\r",
+													"    });"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/products",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST /products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"No access\", () => {\r",
+													"  const responseJson = pm.response.json();\r",
+													"  pm.expect(responseJson._error).to.contain(\"Not allowed\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/products",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"products"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "userRole user",
+							"item": [
+								{
+									"name": "POST /login",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "sec-ch-ua",
+												"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Google Chrome\";v=\"101\""
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
+											},
+											{
+												"key": "sec-ch-ua-platform",
+												"value": "\"Windows\""
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"email\":\"adam@gmail.com\",\"password\":\"12345678\"}"
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET /products",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/products",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST /products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"No access\", () => {\r",
+													"  const responseJson = pm.response.json();\r",
+													"  pm.expect(responseJson._error).to.contain(\"Not allowed\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/products",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"products"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "userRole admin",
+							"item": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
